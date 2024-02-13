@@ -24,7 +24,7 @@ Before you start, you can download our repository by clicking the green ‘code�
 
 2. **Pathway datasets**
 
-   IPFMC is a multi-omics integrated clustering method based on iterative fusion of pathways, and we provide information on the correspondence between processed pathways and genes and the correspondence between pathways and mirnas that we used in our experiments. These files can be found in ‘IPFMC/Sample_Files’ folder, containing two neccessary pathway files:
+   IPFMC is a multi-omics integrated clustering method based on iterative fusion of pathways, and we provide information on the correspondence between processed pathways and genes and the correspondence between pathways and mirnas that we used in our experiments. These files can be found in ‘IPFMC/Test_Files’ folder, containing two neccessary pathway files:
    (1) Pathway_Index.csv
    (2) miRNA_Pathway_Index.csv
 
