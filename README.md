@@ -2,7 +2,7 @@
 
 ## Usage of IPFMC
 
-In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. We will show the process using the LUAD cancer datasets as an example.
+In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
 
 ### Prepare datasets
 
@@ -10,17 +10,174 @@ In this section, we will introduce how to use our python package published on Py
 
    We apologize for the inconvenience caused by the large size of the cancer omics data file, which prevents us from uploading it to the github repository. Therefore, we provide the source of the omics data used in our experiments and show the downloading method using the omics data of LUAD cancer as an example. Please follow our guidance to download the LUAD cancer datasets.
 
-   All our omics data are derived from the data provided by Duan et al. in their review published in PCB in 2021([Evaluation and comparison of multi-omics data integration methods for cancer subtyping | PLOS Computational Biology](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009224)). Their datasets can be downloaded here: [GaoLabXDU/MultiOmicsIntegrationStudy: Experimental evaluation and comparison of multi-omics data integration methods for cancer subtyping (github.com)](https://github.com/GaoLabXDU/MultiOmicsIntegrationStudy/)
+   All our omics data are derived from the data provided by Duan et al. in their review published in PCB in 2021([Evaluation and comparison of multi-omics data integration methods for cancer subtyping | PLOS Computational Biology](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009224)). Their datasets can be downloaded in their github repository: [GaoLabXDU/MultiOmicsIntegrationStudy: Experimental evaluation and comparison of multi-omics data integration methods for cancer subtyping (github.com)](https://github.com/GaoLabXDU/MultiOmicsIntegrationStudy/).
+
+   After accessing their github repository, go to the ‘Availability of datasets’ section in their README file and locate the ‘Dataset #1 LUAD Complete’ dataset. Choose any of the download links they offer and download it. You will get a rar file with these four files inside:
+
+   (1) LUAD_mRNA.csv
+   (2) LUAD_miRNA.csv
+   (3) LUAD_Methy.csv
+   (4) LUAD_CNV.csv
+
+   You can also download their other Complete datasets to perform experiments on other cancer.    
 
 2. **Pathway datasets**
 
-   IPFMC is a multi-omics integrated clustering method based on iterative fusion of pathways, and we provide information on the correspondence between processed pathways and genes and the correspondence between pathways and mirnas that we used in our experiments. These files can be found in ‘IPFMC/Sample_Files’ folder.
+   IPFMC is a multi-omics integrated clustering method based on iterative fusion of pathways, and we provide information on the correspondence between processed pathways and genes and the correspondence between pathways and mirnas that we used in our experiments. These files can be found in ‘IPFMC/Sample_Files’ folder, containing two neccessary pathway files:
+   (1) Pathway_Index.csv
+   (2) miRNA_Pathway_Index.csv
+
+With the above data, you need to build the following file structure to easily replicate our method:
+
+```python
+.
+├── Omics
+│   └── LUAD
+│       ├── LUAD_mRNA.csv
+│       ├── LUAD_miRNA.csv
+│       ├── LUAD_Methy.csv
+│       └── LUAD_CNV.csv
+├── Pathways
+│   ├── Pathway_Index.csv
+│   └── miRNA_Pathway_Index.csv
+└── script.py
+```
+
+The python script currently in use for test is script.py. **To ensure the success of the following steps, please build this file structure.** 
 
 ### Import neccessary packages
+
+To run the following code, you need to install pandas, numpy, snfpy, and IPFMC packages in advance by typing the following command in the terminal:
+
+```python
+pip install pandas numpy snfpy IPFMC
+```
+
+Then use the following lines of code to import the package:
 
 ```python
 import pandas as pd
 import numpy as np
 from snf import snf
-import IPFMC
+from IPFMC import direct,separate,analysis
+```
+
+### Input datasets
+
+Add the following lines to the script to import the datasets correctly:
+
+```python
+# Filepath of the omics data, ‘LUAD’ is the folder contains omics datas of LUAD cancer
+Omic_dir = './Omics/LUAD'  
+# Filepath of the pathway index
+BP_dir = './Pathways/Pathway_Index.csv'
+# Filepath of the miRNA pathway index
+mirBP_dir = './Pathways/miRNA_Pathway_Index.csv'
+datatypes = ['mRNA','Methy','CNV','miRNA']  # The type of data to be used in the experiment
+omic_list = []  # A list for storing multiple omics data
+BP_data = pd.read_csv(BP_dir,index_col=0)  # The pandas package is used to pass in the pathway data
+mirBP_data = pd.read_csv(mirBP_dir,index_col=0)  # Pass in the pathway-mirna relationship data
+for datatype in datatypes:
+    omicdata = pd.read_csv(f'{Omic_dir}/LUAD_{datatype}.csv',index_col=0)
+    omic_list.append(omicdata)
+```
+
+### Acquisition of single/multi-omics data representation
+
+After obtaining all the necessary data, we can input them into IPFMC for multi-omics data integration. This will produce the multi-omics integrated representation and the ranking of the filtered retained pathway for each omics. In this step, IPFMC offers two modalities, each with two strategies. We use strategy 1 of IPFMC as an example to illustrate its usage. We showed two approaches (direct integration and separate computation) to obtain the multi-omics representation.
+
+#### Approach 1: directly input the multi-omics data list and obtain the multi-omics representation 
+
+You can choose to use a direct multi-omics integration strategy. Here's the code (The ‘omic_list’, ‘BP_data’ and ‘mirBP_data’ variable obtained earlier are used in this step):
+
+```python
+represent, pathways = direct.ipfmc_discretize(omic_list,BP_data,mirna=True,mirtarinfo=mirBP_data)
+"""
+	represent: Integrated representation of multi-omics data calculated by IPFMC
+	pathways: The pathway ranking of each omics calculated by IPFMC (each omics has a path ranking), in the same order as the order of the omics in the input omic_list. 
+"""
+```
+
+Detailed Parameters of ‘direct.ipfmc_discretize()’ are listed below:
+
+```python
+"""
+    :param datasets: List of your multi-omics datasets, each element of the list should be a pandas dataframe.
+    :param pathwayinfo: Pathways and their containing genetic information.
+    :param k: The number of initial points of kmeans clustering
+    :param fusetime: Number of pathway screening and fusion performed
+    :param proportion: The proportion of pathways that were retained was fused at each iteration
+    :param snfk: Number of SNF neighborhoods when multiple data sets are fused
+    :param seed: Random number seed, set to None if no seed is needed
+    :param mirtarinfo: miRNA target gene information, valid only if miRNA data is included in the dataset
+    :param mirna: Set to True if your dataset contains mirna data, and False otherwise
+    :return: Final representation of input datasets; a list of pathway rankings of each dataset.
+"""
+```
+
+By default, all variables except datasets, pathwayinfo, mirtarinfo and mirna have default values and do not need to be set. (We set the "seed" parameter to 10 by default, because our method steps involve kmeans clustering and spectral clustering, and these clustering methods are affected by random factors, such as the initial point selection of kmeans clustering. Therefore, setting seed to 10 can facilitate you to run and get similar results as in our paper. The results may still be inconsistent due to python and package versions, but they should be similar. You can also set it to None to not use seed)
+
+**If your datasets contains miRNA expression data, please make sure the ‘mirna’ parameter is set to ‘True’, and the miRNA expression data must be the last element of ‘omic_list’ variable, ‘mirtarinfo’ must be set to the variable that contains miRNA-pathway relationship data.**
+
+#### Approach 2: Compute the representation of each single omics separately
+
+You can also choose to obtain single omics representation for each omics and then using SNF integration. 
+
+```python
+represents = []
+pathways_list = [] # A list to store pahtway rankings of each omics
+# Only the first three data sets are processed here, and the last data set is miRNA, which needs to be processed separately
+for i in range(3):  
+    represent, pathways = separate.ipfmc_discretize(omic_list[i], BP_data)
+    represents.append(np.array(represent))
+    print(represent)
+    pathways_list.append(pathways)
+
+represent, pathways = separate.ipfmc_discretize(omic_list[3], mirBP_data)  # Here processes miRNA dataset
+represents.append(np.array(represent))
+pathways_list.append(pathways)
+represent_final = snf(represents, K=15)  # 'represent_final' is the final multi-omics representation
+# print(pathways_list)
+```
+
+We recommend using this approach because computing the representation of each single-omics separately is more flexible in performing downstream tasks and has fewer parameters to consider.
+
+### Clustering using multi-omics representation
+
+You can directly select number of clusters and use the code below to obtain cluster labels:
+
+```python
+labels = separate.spec_cluster(omic_list[0],fusion_matrix=represent_final,k=4)  # Here we set number of clusters to 4
+# 'labels' is the cluster labels of input multi-omics datasets.
+```
+
+(The first parameter can be any element in ‘omic_list’. It is used to retrieve the sample name)
+
+Or you can use the function we provide to recommend a suggested number of clusters.
+
+```python
+K = separate.suggest_k(represent_final)  # input the final representation, and this function will give a suggested cluster
+labels = separate.spec_cluster(omic_list[0],fusion_matrix=represent_final,k=K)
+```
+
+Then you can use the obtained cluster labels to perform all kinds of analysis.
+
+### Compute Gene occurence
+
+This is an analysis covered in our paper, and we also provide the corresponding implementation method in the IPFMC package.
+
+1. For datasets using genes as features, the top 50 genes with frequency of occurrence can be counted
+
+```python
+Gene_names = list(omic_list[0].index)  # obtain all gene names occured in the omics dataset
+Gene_rank = analysis.gene_occurrence(Full_Genes=Gene_names, Sel_Pathways=pathways_list[0], Full_Pathways=BP_data)
+# print(Gene_rank)
+```
+
+2. For datasets using miRNA as features, the top 50 miRNA with frequency of occurrence can be counted
+
+```python
+miRNA_names = list(omic_list[3].index)  # obtain all miRNA names occured in the omics dataset
+miRNA_rank = analysis.gene_occurrence(Full_Genes=miRNA_names, Sel_Pathways=pathways_list[3], Full_Pathways=mirBP_data)
+# print(miRNA_rank)
 ```
