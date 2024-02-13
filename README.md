@@ -5,6 +5,7 @@
 In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
 
 ### Prepare datasets
+Before you start, you can download our repository by clicking the green ‘code’ button in the upper right corner and selecting “Download ZIP” from the drop-down menu. We will use the data in the “Test_Files” folder.
 
 1. **Omics datasets**
 
