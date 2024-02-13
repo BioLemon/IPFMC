@@ -235,5 +235,5 @@ print(mir_index)
 
 ## Evaluation codes of our experiments
 
-You can see ‘IPFMC/IPFMC_working_directory’for all our evaluation code. 
+You can check ‘IPFMC/IPFMC_working_directory’for all our evaluation code. 
 
