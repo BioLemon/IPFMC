@@ -94,7 +94,7 @@ You can choose to use a direct multi-omics integration strategy. Here's the code
 represent, pathways = direct.ipfmc_discretize(omic_list,BP_data,mirna=True,mirtarinfo=mirBP_data)
 """
 	represent: Integrated representation of multi-omics data calculated by IPFMC
-	pathways: The pathway ranking of each omics calculated by IPFMC (each omics has a path ranking), in the same order as the order of the omics in the input omic_list. 
+	pathways: The pathway ranking of each omics calculated by IPFMC (each omics has a pathway ranking), in the same order as the order of the omics in the input omic_list. 
 """
 ```
 
