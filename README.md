@@ -181,3 +181,58 @@ miRNA_names = list(omic_list[3].index)  # obtain all miRNA names occured in the 
 miRNA_rank = analysis.gene_occurrence(Full_Genes=miRNA_names, Sel_Pathways=pathways_list[3], Full_Pathways=mirBP_data)
 # print(miRNA_rank)
 ```
+## Apply to your own datasets
+
+To apply IPFMC to your own datasets, you can check the data format of the sample file we provided in the previous section and convert your own data to the appropriate format.
+
+For pathway information data, you can either use the constructed data that we applied in our experiments (in the ‘IPFMC/Test_Flies/Pathways/’) or convert your own downloaded pathway information into the format we used with the user-friendly methods in the IPFMC package. However, we currently only support miRNA target gene data from mirTarBase([miRTarBase: the experimentally validated microRNA-target interactions database (cuhk.edu.cn)](https://mirtarbase.cuhk.edu.cn/~miRTarBase/miRTarBase_2022/php/download.php)) and pathway data from GSEA([https://www.gsea-msigdb.org/gsea/msigdb/human/collections.jsp#C2](#C2)). 
+
+The following is an explanation of the imported files that appear in the example code below.
+
+(1) GoTerm_NCP.json: pathway information file downloaded from GSEA in the json format.
+
+(2) hsa_MTI.xlsx: miRNA target gene information file downloaded from mirTarBase.
+
+In addition, the ‘All_Names’ variable that appears in the code is the set of all miRNA names that you need to construct the relationship between miRNA and pathway. You can build your own code to construct this variable according to the characteristics of your data.
+
+
+```python
+from IPFMC import analysis
+import pandas as pd
+import pickle
+#Cancer_type = 'LUAD'
+miRNA_dir = '../Datas/Omics/Raw_Omics/'
+BP_dir = '../Datas/Pathways/'
+Target_dir = '../Datas/Pathways/hsa_MTI.xlsx'
+BioProcesses = pd.read_json(BP_dir+'GoTerm_NCP.json')
+# 'pathway_index' is constructed pathway-gene relationship data, you can save it as a file 
+pathway_index = analysis.Create_pathwayindex(BioProcesses,min_genes=10,max_genes=200)
+# pandas reads target gene data, which are obtained from miRTarBase
+target_gene_data = pd.read_excel(Target_dir)
+print(target_gene_data)
+All_Names = set() # All_Names variable is here
+Cancer_type_list = ['ACC','BRCA','COAD','KIRC','KIRP','LIHC','LUAD','LUSC','THYM']
+for Cancer_type in Cancer_type_list:
+    Temp_miRNA = pd.read_csv(miRNA_dir+Cancer_type+"/"+Cancer_type+"_miRNA.csv", index_col=0)
+    Names = set(list(Temp_miRNA.index))
+    All_Names = All_Names.union(Names)
+    print(Names)
+print(All_Names)
+miRNA_Genes_dict = analysis.create_mirTar_Dict(target_gene_data,All_Names)
+
+print(pathway_index)
+'''
+f = open("../Datas/Pathways/miRNA_Genes_dict.pkl", "rb")  
+miRNA_Genes_dict = pickle.load(f)  
+f.close() 
+'''
+print(len(miRNA_Genes_dict))  
+# 'mir_index' is final constructed miRNA-pathway relationship data, you can save it as a file 
+mir_index = analysis.Create_miRNA_pathwayindex(miRNA_Genes_dict,pathway_index)
+print(mir_index)
+```
+
+## Evaluation codes of our experiments
+
+You can see ‘IPFMC/IPFMC_working_directory’for all our evaluation code. 
+
