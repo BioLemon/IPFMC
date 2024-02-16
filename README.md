@@ -85,7 +85,7 @@ for datatype in datatypes:
 
 ### Acquisition of single/multi-omics data representation
 
-After obtaining all the necessary data, we can input them into IPFMC for multi-omics data integration. This will produce the multi-omics integrated representation and the ranking of the filtered retained pathway for each omics. In this step, IPFMC offers two modalities, each with two strategies. We use strategy 1 of IPFMC as an example to illustrate its usage. We showed two approaches (direct integration and separate computation) to obtain the multi-omics representation.
+After obtaining all the necessary data, we can input them into IPFMC for multi-omics data integration. This will produce the multi-omics integrated representation and the ranking of the filtered retained pathway for each omics. In this step, IPFMC offers two modalities, each with two strategies. We use strategy 1 of IPFMC as an example to illustrate its usage (The corresponding method in the IPFMC package is 'ipfmc discretize()'). We showed two approaches (direct integration and separate computation) to obtain the multi-omics representation.
 
 #### Approach 1: directly input the multi-omics data list and obtain the multi-omics representation 
 
