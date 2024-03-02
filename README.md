@@ -4,7 +4,7 @@
 
 In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
 
-### Prepare datasets
+### Step 1: Prepare datasets
 Before you start, you can download our repository by clicking the green ‘code’ button in the upper right corner and selecting “Download ZIP” from the drop-down menu. We will use the data in the “Test_Files” folder.
 
 1. **Omics datasets**
@@ -46,7 +46,7 @@ With the above data, you need to build the following file structure to easily re
 
 The python script currently in use for test is script.py. **To ensure the success of the following steps, please build this file structure.** 
 
-### Import neccessary packages
+### Step 2: Import neccessary packages
 
 To run the following code, you need to install pandas, numpy, snfpy, and IPFMC packages in advance by typing the following command in the terminal:
 
@@ -63,7 +63,7 @@ from snf import snf
 from IPFMC import direct,separate,analysis
 ```
 
-### Input datasets
+### Step 3: Input datasets
 
 Add the following lines to the script to import the datasets correctly:
 
@@ -83,7 +83,7 @@ for datatype in datatypes:
     omic_list.append(omicdata)
 ```
 
-### Acquisition of single/multi-omics data representation
+### Step 4: Acquisition of single/multi-omics data representation
 
 After obtaining all the necessary data, we can input them into IPFMC for multi-omics data integration. This will produce the multi-omics integrated representation and the ranking of the filtered retained pathway for each omics. In this step, IPFMC offers two modalities, each with two strategies. We use strategy 1 of IPFMC as an example to illustrate its usage (The corresponding method in the IPFMC package is 'ipfmc discretize()'). We showed two approaches (direct integration and separate computation) to obtain the multi-omics representation.
 
@@ -143,7 +143,7 @@ represent_final = snf(represents, K=15)  # 'represent_final' is the final multi-
 
 We recommend using this approach because computing the representation of each single-omics separately is more flexible in performing downstream tasks and has fewer parameters to consider.
 
-### Clustering using multi-omics representation
+### Step 5: Clustering using multi-omics representation
 
 You can directly select number of clusters and use the code below to obtain cluster labels:
 
@@ -163,7 +163,7 @@ labels = separate.spec_cluster(omic_list[0],fusion_matrix=represent_final,k=K)
 
 Then you can use the obtained cluster labels to perform all kinds of analysis.
 
-### Compute Gene occurence
+### (Optional) Step 6: Compute Gene occurence
 
 This is an analysis covered in our paper, and we also provide the corresponding implementation method in the IPFMC package.
 
