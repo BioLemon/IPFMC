@@ -11,7 +11,9 @@ Before you start, you can download our repository by clicking the green ‘code�
 
    We apologize for the inconvenience caused by the large size of the cancer omics data file, which prevents us from uploading it to the github repository. Therefore, we provide the source of the omics data used in our experiments and show the downloading method using the omics data of LUAD cancer as an example. Please follow our guidance to download the LUAD cancer datasets.
 
-   All our omics data are derived from the data provided by Duan et al. in their review published in PCB in 2021([Evaluation and comparison of multi-omics data integration methods for cancer subtyping | PLOS Computational Biology](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009224)). Their datasets can be downloaded in their github repository: [GaoLabXDU/MultiOmicsIntegrationStudy: Experimental evaluation and comparison of multi-omics data integration methods for cancer subtyping (github.com)](https://github.com/GaoLabXDU/MultiOmicsIntegrationStudy/).
+   Our omics data is derived from the comprehensive study conducted by Duan et al., as published in *PLOS Computational Biology* in 2021. Their research evaluated and compared multi-omics data integration methods for cancer subtyping. You can find their original paper here: ([Evaluation and comparison of multi-omics data integration methods for cancer subtyping | PLOS Computational Biology](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009224)). 
+
+   Their datasets can be downloaded in their github repository: [GaoLabXDU/MultiOmicsIntegrationStudy: Experimental evaluation and comparison of multi-omics data integration methods for cancer subtyping (github.com)](https://github.com/GaoLabXDU/MultiOmicsIntegrationStudy/).
 
    After accessing their github repository, go to the ‘Availability of datasets’ section in their README file and locate the ‘Dataset #1 LUAD Complete’ dataset. Choose any of the download links they offer and download it. You will get a rar file with these four files inside:
 
@@ -20,7 +22,11 @@ Before you start, you can download our repository by clicking the green ‘code�
    (3) LUAD_Methy.csv
    (4) LUAD_CNV.csv
 
-   You can also download their other Complete datasets to perform experiments on other cancer.    
+   You can also download their other Complete datasets to perform experiments on other cancer.
+
+   **Additional Options**
+
+   In case downloading the complete datasets is inconvenient, we also offer several demo datasets. These can be found in our `Test_Files/Demo` folder. Feel free to modify the file paths in our sample code or rename these demo datasets to suit your needs.
 
 2. **Pathway datasets**
 
