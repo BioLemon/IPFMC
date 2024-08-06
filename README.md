@@ -122,7 +122,7 @@ Detailed Parameters of ‘direct.ipfmc_discretize()’ are listed below:
 """
 ```
 
-By default, all variables except datasets, pathwayinfo, mirtarinfo and mirna have default values and do not need to be set. (We set the "seed" parameter to 10 by default, because our method steps involve kmeans clustering and spectral clustering, and these clustering methods are affected by random factors, such as the initial point selection of kmeans clustering. Therefore, setting seed to 10 can facilitate you to run and get similar results as in our paper. The results may still be inconsistent due to python and package versions, but they should be similar. You can also set it to None to not use seed)
+By default, all variables except `datasets`, `pathwayinfo`, `mirtarinfo`, and `mirna` have preset values and do not need to be manually configured. We set the `seed` parameter to 10 by default because our method involves k-means clustering and spectral clustering, both of which are influenced by random factors, such as the initial point selection in k-means clustering. Setting the seed to 10 helps ensure that you can reproduce results similar to those in our paper. While results may still vary due to differences in Python and package versions, they should be comparable. Alternatively, you can set the seed to None or any other number to run our method. The resulting data will differ, but the performance should be comparable to the results showcased in our paper.
 
 **If your datasets contains miRNA expression data, please make sure the ‘mirna’ parameter is set to ‘True’, and the miRNA expression data must be the last element of ‘omic_list’ variable, ‘mirtarinfo’ must be set to the variable that contains miRNA-pathway relationship data.**
 
