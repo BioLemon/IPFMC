@@ -1,5 +1,15 @@
 # IPFMC
-
+<P align="center">
+    <a>
+    <img alt="Licence" src="https://img.shields.io/pypi/l/IPFMC" />
+	</a>
+    <a>
+    <img alt="Licence" src="https://img.shields.io/pypi/v/IPFMC" />
+	</a>
+    <a>
+    <img alt="Licence" src="https://img.shields.io/pypi/pyversions/IPFMC" />
+	</a>
+</p>
 ## Usage of IPFMC
 
 In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
