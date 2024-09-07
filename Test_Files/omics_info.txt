@@ -1,0 +1,5 @@
+mRNA miRNA methy CNV
+./Omics/Demo/Demo_mRNA.csv
+./Omics/Demo/Demo_miRNA.csv
+./Omics/Demo/Demo_Methy.csv
+./Omics/Demo/Demo_CNV.csv
