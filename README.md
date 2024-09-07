@@ -63,6 +63,9 @@ python ipfmc.py -p ./Pathways/raw/GoTerm_NCP.json -a p
 ```
 
 2. building the miRNA pathway index
+Due to the large size of the raw miRNA target data, you will need to download it from the following link:
+https://mirtarbase.cuhk.edu.cn/~miRTarBase/miRTarBase_2022/cache/download/9.0/hsa_MTI.xlsx 
+After downloading, place the file in the Test_Files/Pathways/raw directory. Once this is done, you can execute the following command to build the miRNA-pathway index. This version improves clarity and flow while maintaining the original meaning.
 
 ```python
 python ipfmc.py -p ./Pathways/Pathway_index.csv -o ./Pathways/raw/hsa_MTI.xlsx -m ./Pathways/raw/mirset_example.csv -a m
