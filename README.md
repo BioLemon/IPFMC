@@ -11,6 +11,65 @@
 	</a>
 </p>
 
+## IPFMC Simple Use Case
+
+### Create Environment
+
+Download IPFMC/Test_Files, install python packages included in requirements.txt.
+
+### Run on Demo datasets
+
+You can run the Demo dataset by typing the following command from a python terminal, and all results will be saved by default in the Test_files/results folder:
+
+```python
+python ipfmc.py -p pathway_info.txt -o omics_info.txt -a c -s 1
+```
+
+In this example command, `-p` should be set to a text file containing the file paths of the pathway index and the miRNA pathway index, and the order cannot be changed. The `-o` parameter needs to be set to a text file where the first line contains the required input omics types separated by spaces, and each subsequent line contains the file path for one type of omics data (the order of the omics file paths must correspond to the order of the input omics types). 
+
+You can also modify the parameters of our method to perform analysis according to your needs, following is an introduction of all available parameters.
+
+#### Optional Parameters
+
+- `-p, --pathway`: Path to the pathway information file. 
+  
+- `-m, --mirset`: Path to the miRNA set file. If provided, the tool will use the miRNA set to build the miRNA-pathway index.
+  
+- `-o, --omics`: Path to the txt file containing omics’ file path information. 
+
+- `-a, --action`: Specifies the action to be performed. Acceptable values are 'c', 'p', and 'm', each representing different operations. 
+  - 'c' indicates the clustering mode, which performs clustering analysis using the provided multi-omics data.
+  - 'p' indicates the pathway index construction mode, which is used to build a pathway index similar to `Test_Files/Pathways/Pathway_Index.csv` based on the pathway information file from MSigDB. In this mode, the `-p` parameter should be set to the path of the pathway information JSON file downloaded from MSigDB.
+  - 'm' indicates the construction of the relationship between miRNAs and pathways, similar to `Test_Files/Pathways/miRNA_Pathway_Index.csv`. In this case, you need to set the `-p` parameter to the path of `Pathway_Index.csv`, the `-m` parameter to a CSV file containing all miRNAs for which the relationships are to be constructed (similar to `Test_Files/Pathways/raw/mirset_example.csv`), and the `-o` parameter to the miRNA target gene information file downloaded from miRTarBase, such as `Test_Files/Pathways/raw/hsa_MTI.xlsx`.
+
+- `-s, --strategy`: Specifies whether to use strategy one or strategy two to perform IPFMC (Integrated Pathway and Functional Modulation Clustering). Acceptable values are 1 or 2, with a default of 1.
+
+- `-n, --num_cluster`: Specifies the number of clusters. If not provided, the tool will use a suggested number of clusters.
+
+- `-d, --output`: Specifies the output directory. Defaults to a folder named 'results' in the current directory.
+
+- `-co, --count`: Determines whether to output gene count rankings. The default value is 0, which means no output. Setting it to 1 will output the gene count rankings for important pathways.
+
+- `-can, --cancer`: Specifies the cancer type of the input datasets. Defaults to 'Cancer'. This parameter only affects the names of the output files.
+
+- `-se, --select`: Specifies the proportion of retained pathways. Defaults to 100. If set to a lower proportion, it will filter a subset of pathways with higher absolute median deviations, thereby increasing the speed of execution, but it may affect the clustering results. We recommend that this proportion should not be set below 40%.
+
+### Example of running with m and p mode
+
+1. building the pathway index
+
+```python
+python ipfmc.py -p ./Pathways/raw/GoTerm_NCP.json -a p
+```
+
+2. building the miRNA pathway index
+
+```python
+python ipfmc.py -p ./Pathways/Pathway_index.csv -o ./Pathways/raw/hsa_MTI.xlsx -m ./Pathways/raw/mirset_example.csv -a m
+```
+
+Index obtained by above commands will be stored in `results` folder by default. You can set `-d` parameter to specify the output directory.
+
 ## Usage of IPFMC
 
 In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
@@ -254,3 +313,60 @@ print(mir_index)
 
 You can check ‘IPFMC/IPFMC_working_directory’for all our evaluation code. 
 
+## Instruction of Paper Data Reproduction
+
+### Step 1: Download Evaluation Codes and Omics Datasets
+
+(1) Download Evaluation Codes
+
+First, please download all files from the `IPFMC/IPFMC_working_directory/` directory in our repository to automatically obtain the code and folder structure required to reproduce our paper data.
+
+(2) Download Cancer Multi-Omics Datasets
+
+Next, you need to acquire all the evaluation omics datasets we used.
+
+Our omics datasets are derived from the comprehensive study conducted by Duan et al., as published in *PLOS Computational Biology* in 2021. Their research evaluated and compared multi-omics data integration methods for cancer subtyping. You can find their original paper here: ([Evaluation and comparison of multi-omics data integration methods for cancer subtyping | PLOS Computational Biology](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1009224)).
+
+Their datasets can be downloaded from their github repository: [GaoLabXDU/MultiOmicsIntegrationStudy: Experimental evaluation and comparison of multi-omics data integration methods for cancer subtyping (github.com)](https://github.com/GaoLabXDU/MultiOmicsIntegrationStudy/).
+
+After accessing their github repository, go to the `Availability of datasets` section in their README file. Download all Complete datasets. These datasets have a unified naming convention: "Dataset #1 XXXX Complete". Here, XXXX represents the cancer type, including BRCA, COAD, KIRC, LUAD, LUSC, ACC, KIRP, LIHC, and THYM. Please download the Complete datasets for all nine cancer types, as these datasets are used in the survival analysis experiments in our paper. Additionally, you need to download the two most recent datasets: Dataset #3 BRCA Complete and Dataset #3 COAD Complete, which are used in the gold standard dataset evaluation experiments in our paper.
+
+After downloading, each dataset contains multiple omics files. You need to place these omics files in the respective cancer folders under the `IPFMC_working_directory/Datas/Omics/Raw_Omics` directory, matching the cancer types. The placeholder files already present in the folders can be deleted or left as is, as they will not affect the reproduction process.
+
+Specifically, the two gold standard evaluation datasets (Dataset #3 BRCA Complete and Dataset #3 COAD Complete) should be placed in the corresponding cancer+GOLD named folders.
+
+The remaining data, such as pathway information and patient survival data, are already included in `IPFMC/IPFMC_working_directory` and do not require separate downloading or processing.
+
+### Deploy to Server
+
+Upload the entire working directory, which now contains the downloaded and filled omics data, to a Linux server (preferably with more than 4 CPU cores), and activate the Python environment that has all the packages included in our `requirements.txt` file installed. Next, set the current directory to the `Evaluation_bash` folder and execute the following steps in order:
+
+1. Run strategy 1 to obtain the four omics representations and pathway rankings for each of the nine cancer types:
+
+```bash
+bash Evaluation_S1.sh
+```
+
+This step is time-consuming. Please monitor the background command execution and ensure that all four programs activated by the `sh` file have completed before executing the next step.
+
+2. Run the downstream analysis to obtain the survival analysis results for the nine cancer types:
+
+```bash
+bash Surv_ana.sh
+```
+
+Similarly, wait for this program to finish running before executing the next step.
+
+3. Run strategy 2 to obtain the four omics representations and pathway rankings for the two gold standard datasets:
+
+```bash
+bash Evaluation_S2.sh
+```
+
+4. Run the gold standard comparison analysis to obtain the true label comparison experiment results for the two gold standard datasets:
+
+```bash
+bash True_ana.sh
+```
+
+After completing the above four steps, you can find all the evaluation data from our paper in `IPFMC_working_directory/Datas/Assessment_Result`.
