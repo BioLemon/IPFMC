@@ -1,1 +1,0 @@
-Once you have downloaded the LUAD cancer datasets, you can either open ‘script.py’ to run the test code, or create a new python script here and follow our instructions on github to learn how to use IPFMC and build your own pipeline.

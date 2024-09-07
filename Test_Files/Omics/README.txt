@@ -1,1 +1,0 @@
-You can download the LUAD omics data file into the LUAD folder, or you can create folders for other cancers and download the data into other cancer folders.
