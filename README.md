@@ -173,7 +173,7 @@ After obtaining all the necessary data, we can input them into IPFMC for multi-o
 You can choose to use a direct multi-omics integration strategy. Here's the code (The ‘omic_list’, ‘BP_data’ and ‘mirBP_data’ variable obtained earlier are used in this step):
 
 ```python
-represent, pathways = direct.ipfmc_discretize(omic_list,BP_data,mirna=True,mirtarinfo=mirBP_data)
+represent, pathways = direct.ipfmc_discretize(omic_list,BP_data,mirna=True,mirtarinfo=mirBP_data,seed=10)
 """
 	represent: Integrated representation of multi-omics data calculated by IPFMC
 	pathways: The pathway ranking of each omics calculated by IPFMC (each omics has a pathway ranking), in the same order as the order of the omics in the input omic_list. 
@@ -197,7 +197,7 @@ Detailed Parameters of ‘direct.ipfmc_discretize()’ are listed below:
 """
 ```
 
-By default, all variables except `datasets`, `pathwayinfo`, `mirtarinfo`, and `mirna` have preset values and do not need to be manually configured. We set the `seed` parameter to 10 by default because our method involves k-means clustering and spectral clustering, both of which are influenced by random factors, such as the initial point selection in k-means clustering. Setting the seed to 10 helps ensure that you can reproduce results similar to those in our paper. While results may still vary due to differences in Python and package versions, they should be comparable. Alternatively, you can set the seed to None or any other number to run our method. The resulting data will differ, but the performance should be comparable to the results showcased in our paper.
+By default, all variables except `datasets`, `pathwayinfo`, `mirtarinfo`, and `mirna` have preset values and do not need to be manually configured. We set the `seed` parameter to 10 in the example codes because our method involves k-means clustering and spectral clustering, both of which are influenced by random factors, such as the initial point selection in k-means clustering. Setting the seed to 10 helps ensure that you can reproduce results similar to those in our paper. While results may still vary due to differences in Python and package versions, they should be comparable. Alternatively, you can set the seed to None or any other number to run our method. The resulting data will differ, but the performance should be comparable to the results showcased in our paper.
 
 **If your datasets contains miRNA expression data, please make sure the ‘mirna’ parameter is set to ‘True’, and the miRNA expression data must be the last element of ‘omic_list’ variable, ‘mirtarinfo’ must be set to the variable that contains miRNA-pathway relationship data.**
 
@@ -210,12 +210,12 @@ represents = []
 pathways_list = [] # A list to store pahtway rankings of each omics
 # Only the first three data sets are processed here, and the last data set is miRNA, which needs to be processed separately
 for i in range(3):  
-    represent, pathways = separate.ipfmc_discretize(omic_list[i], BP_data)
+    represent, pathways = separate.ipfmc_discretize(omic_list[i], BP_data,seed=10)
     represents.append(np.array(represent))
     print(represent)
     pathways_list.append(pathways)
 
-represent, pathways = separate.ipfmc_discretize(omic_list[3], mirBP_data)  # Here processes miRNA dataset
+represent, pathways = separate.ipfmc_discretize(omic_list[3], mirBP_data,seed=10)  # Here processes miRNA dataset
 represents.append(np.array(represent))
 pathways_list.append(pathways)
 represent_final = snf(represents, K=15)  # 'represent_final' is the final multi-omics representation
@@ -354,24 +354,17 @@ bash Evaluation_S1.sh
 
 This step is time-consuming. Please monitor the background command execution and ensure that all four programs activated by the `sh` file have completed before executing the next step.
 
-2. Run the downstream analysis to obtain the survival analysis results for the nine cancer types:
-
-```bash
-bash Surv_ana.sh
-```
-
-Similarly, wait for this program to finish running before executing the next step.
-
-3. Run strategy 2 to obtain the four omics representations and pathway rankings for the two gold standard datasets:
+2. Run strategy 2 to obtain the four omics representations and pathway rankings for the two gold standard datasets:
 
 ```bash
 bash Evaluation_S2.sh
 ```
+As in the first step, wait for this step to complete before proceeding to the next step.
 
-4. Run the gold standard comparison analysis to obtain the true label comparison experiment results for the two gold standard datasets:
+3. Run the survival analysis and gold standard comparison analysis to obtain the survival analysis results for nine cancer datasets and true label comparison experiment results for the two gold standard datasets:
 
 ```bash
-bash True_ana.sh
+bash Downana.sh
 ```
 
-After completing the above four steps, you can find all the evaluation data from our paper in `IPFMC_working_directory/Datas/Assessment_Result`.
+After completing the above three steps, you can find all the evaluation data from our paper in `IPFMC_working_directory/Datas/Assessment_Result`.
