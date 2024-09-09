@@ -10,8 +10,24 @@
     <img alt="Licence" src="https://img.shields.io/pypi/pyversions/IPFMC" />
 	</a>
 </p>
+## Overview
 
-## IPFMC Simple Use Case
+This README file serves as a comprehensive guide for understanding and utilizing our IPFMC method. It is divided into three main sections to address different user needs and provide clear instructions:
+
+#### Section 1: IPFMC Simple Use Case
+
+This section offers a straightforward tutorial on running our method using command-line interface. It provides guidance on setting parameters to meet your specific requirements, ensuring a seamless integration of IPFMC into your workflow.
+
+#### Section 2: Detailed Usage of IPFMC
+
+For users who need to incorporate our method into their own codes, this section delves into the intricacies of using IPFMC as a general Python package. It offers comprehensive instructions and examples to help you seamlessly integrate our tool with your existing codebase.
+
+#### Section 3: Instruction of Paper Data Reproduction
+
+This section is dedicated to reproducing all experimental results presented in our research paper. By following the instructions provided, you can validate our findings and explore the performance of IPFMC on the same datasets used in our study.
+
+We hope this README file serves as a valuable resource for understanding and leveraging the capabilities of our IPFMC method.
+## Section 1: IPFMC Simple Use Case
 
 ### Create Environment
 
@@ -67,15 +83,14 @@ python ipfmc.py -p ./Pathways/raw/GoTerm_NCP.json -a p
 Due to the large size of the raw miRNA target data, you will need to download it from the following link:
 https://mirtarbase.cuhk.edu.cn/~miRTarBase/miRTarBase_2022/cache/download/9.0/hsa_MTI.xlsx 
 
-After downloading, place the file in the `Test_Files/Pathways/raw` directory. Once this is done, you can execute the following command to build the miRNA-pathway index. This version improves clarity and flow while maintaining the original meaning.
-
+After downloading, place the file in the `Test_Files/Pathways/raw` directory. Once this is done, you can execute the following command to build the miRNA-pathway index.
 ```python
 python ipfmc.py -p ./Pathways/Pathway_index.csv -o ./Pathways/raw/hsa_MTI.xlsx -m ./Pathways/raw/mirset_example.csv -a m
 ```
 
 Index obtained by above commands will be stored in `results` folder by default. You can set `-d` parameter to specify the output directory.
 
-## Usage of IPFMC
+## Section 2: Detailed Usage of IPFMC package
 
 In this section, we will introduce how to use our python package published on PyPI to perform clustering and biological interpretation of cancer multi-omics data. **We will show the process using the LUAD cancer datasets as an example.**
 
@@ -314,11 +329,7 @@ mir_index = analysis.Create_miRNA_pathwayindex(miRNA_Genes_dict,pathway_index)
 print(mir_index)
 ```
 
-## Evaluation codes of our experiments
-
-You can check ‘IPFMC/IPFMC_working_directory’for all our evaluation code. 
-
-## Instruction of Paper Data Reproduction
+## Section 3: Instruction of Paper Data Reproduction
 
 ### Step 1: Download Evaluation Codes and Omics Datasets
 
