@@ -330,7 +330,7 @@ mir_index = analysis.Create_miRNA_pathwayindex(miRNA_Genes_dict,pathway_index)
 print(mir_index)
 ```
 
-## Section 3: Instruction of Paper Data Reproduction
+## Section 3: Instructions for Paper Data Reproduction
 
 ### Step 1: Download Evaluation Codes and Omics Datasets
 
@@ -354,7 +354,7 @@ Specifically, the two gold standard evaluation datasets (Dataset #3 BRCA Complet
 
 The remaining data, such as pathway information and patient survival data, are already included in `IPFMC/IPFMC_working_directory` and do not require separate downloading or processing.
 
-### Deploy to Server
+### Step 2: Deploy to Server and Run Evaluations
 
 Upload the entire working directory, which now contains the downloaded and filled omics data, to a Linux server (preferably with more than 4 CPU cores), and activate the Python environment that has all the packages included in our `requirements.txt` file installed. Next, set the current directory to the `Evaluation_bash` folder and execute the following steps in order:
 
