@@ -291,42 +291,51 @@ The following is an explanation of the imported files that appear in the example
 
 (2) hsa_MTI.xlsx: miRNA target gene information file downloaded from mirTarBase.
 
-In addition, the ‘All_Names’ variable that appears in the code is the set of all miRNA names that you need to construct the relationship between miRNA and pathway. You can build your own code to construct this variable according to the characteristics of your data.
+In addition, the ‘miRNA_Names’ variable that appears in the code is the set of all miRNA names that you need to construct the relationship between miRNA and pathway. You can build your own code to construct this variable according to the characteristics of your data.
 
 
 ```python
 from IPFMC import analysis
 import pandas as pd
 import pickle
-#Cancer_type = 'LUAD'
+
+# Define directories for data sources
 miRNA_dir = '../Datas/Omics/Raw_Omics/'
 BP_dir = '../Datas/Pathways/'
 Target_dir = '../Datas/Pathways/hsa_MTI.xlsx'
-BioProcesses = pd.read_json(BP_dir+'GoTerm_NCP.json')
-# 'pathway_index' is constructed pathway-gene relationship data, you can save it as a file 
-pathway_index = analysis.Create_pathwayindex(BioProcesses,min_genes=10,max_genes=200)
-# pandas reads target gene data, which are obtained from miRTarBase
-target_gene_data = pd.read_excel(Target_dir)
-print(target_gene_data)
-All_Names = set() # All_Names variable is here
-Cancer_type_list = ['ACC','BRCA','COAD','KIRC','KIRP','LIHC','LUAD','LUSC','THYM']
-for Cancer_type in Cancer_type_list:
-    Temp_miRNA = pd.read_csv(miRNA_dir+Cancer_type+"/"+Cancer_type+"_miRNA.csv", index_col=0)
-    Names = set(list(Temp_miRNA.index))
-    All_Names = All_Names.union(Names)
-    print(Names)
-print(All_Names)
-miRNA_Genes_dict = analysis.create_mirTar_Dict(target_gene_data,All_Names)
 
-print(pathway_index)
-'''
-f = open("../Datas/Pathways/miRNA_Genes_dict.pkl", "rb")  
-miRNA_Genes_dict = pickle.load(f)  
-f.close() 
-'''
-print(len(miRNA_Genes_dict))  
-# 'mir_index' is final constructed miRNA-pathway relationship data, you can save it as a file 
-mir_index = analysis.Create_miRNA_pathwayindex(miRNA_Genes_dict,pathway_index)
+# Load pathway data from JSON file
+Pathway_data = pd.read_json(BP_dir + 'GoTerm_NCP.json')
+
+"""
+(1) Constructs a pathway-gene relationship index. The resulting 'pathway_index' can be saved as a file for future use.
+(2) The parameters 'min_genes' and 'max_genes' define the range of gene counts to retain for pathways.
+"""
+pathway_index = analysis.Create_pathwayindex(Pathway_data, min_genes=10, max_genes=200)
+
+# Read target gene data from an Excel file sourced from miRTarBase
+target_gene_data = pd.read_excel(Target_dir)
+
+"""
+The following code extracts a comprehensive set of miRNA names that require mapping to pathways. 
+It specifically retrieves indices from all cancer miRNA omics data and stores all unique values. 
+Alternative methods may also be employed to obtain the set of miRNA names.
+"""
+miRNA_Names = set()
+Cancer_type_list = ['ACC', 'BRCA', 'COAD', 'KIRC', 'KIRP', 'LIHC', 'LUAD', 'LUSC', 'THYM']
+
+for Cancer_type in Cancer_type_list:
+    Temp_miRNA = pd.read_csv(miRNA_dir + Cancer_type + "/" + Cancer_type + "_miRNA.csv", index_col=0)
+    Names = set(list(Temp_miRNA.index))
+    miRNA_Names = miRNA_Names.union(Names)
+
+# Create a dictionary that maps miRNAs to their corresponding target genes.
+miRNA_Genes_dict = analysis.create_mirTar_Dict(target_gene_data, miRNA_Names)
+
+# The 'mir_index' represents the final constructed miRNA-pathway relationship index, which can be saved as a file for further analysis.
+mir_index = analysis.Create_miRNA_pathwayindex(miRNA_Genes_dict, pathway_index)
+
+# Output the final miRNA-pathway index
 print(mir_index)
 ```
 
