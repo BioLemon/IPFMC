@@ -157,7 +157,7 @@ for Cancer_type in Cancer_type_list:
     df["Score"] = Ffinal_scores  # Add scores to the DataFrame
     print(df)  # Print the DataFrame
 
-    output_dir = '../Datas/Omics/Output_Omics/'  # Define output directory
+    output_dir = '../Datas/Omics/Output_Omics/'+Cancer_type+'/'  # Define output directory
     np.savetxt(output_dir + Cancer_type + '_' + Data_type + '_Matrix.csv', Co_Matrix,
                delimiter=',')  # Save consensus matrix
     df.to_excel(output_dir + Cancer_type + "_" + Data_type + "_" + "Pathway_Sorting.xlsx")  # Save DataFrame to Excel
