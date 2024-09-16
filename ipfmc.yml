@@ -90,4 +90,3 @@ dependencies:
   - zstd=1.5.5=hc292b87_2
   - pip:
       - snfpy==0.2.2
-prefix: /home/zhanghaoy/anaconda3/envs/ipfmc
