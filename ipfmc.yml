@@ -3,12 +3,12 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.11
-  - pip
+  - python=3.11.9
   - numpy
   - pandas
-  - scikit-learn
-  - lifelines
-  - scipy
+  - scikit-learn=1.5.1
+  - lifelines=0.27.8
+  - scipy=1.12.0
+  - pip
   - pip:
-    - snfpy
+    - snfpy==0.2.2
