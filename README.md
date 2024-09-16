@@ -363,9 +363,20 @@ Specifically, the two gold standard evaluation datasets (Dataset #3 BRCA Complet
 
 The remaining data, such as pathway information and patient survival data, are already included in `IPFMC/IPFMC_working_directory` and do not require separate downloading or processing.
 
-### Step 2: Deploy to Server and Run Evaluations
+### Step 2: Deploy to the server and create  ipfmc conda environment
 
-Upload the entire working directory, which now contains the downloaded and filled omics data, to a Linux server (preferably with more than 4 CPU cores), and activate the Python environment that has all the packages included in our `requirements.txt` file installed. Next, set the current directory to the `Evaluation_bash` folder and execute the following steps in order:
+Upload the entire working directory, which now contains the downloaded and processed omics data, to a Linux server (preferably one with more than four CPUs). Subsequently, create and activate the `ipfmc` Conda environment using the `ipfmc.yml` file with the following commands:
+
+```bash
+conda env create -f ipfmc.yml
+conda activate ipfmc
+```
+
+Once the environment is created, you can proceed to the next step.
+
+### Step 3:  Run evaluations
+
+Next, set the current directory to the `Evaluation_bash` folder and execute the following steps in order:
 
 1. Run strategy 1 to obtain the four omics representations and pathway rankings for each of the nine cancer types:
 
@@ -373,7 +384,7 @@ Upload the entire working directory, which now contains the downloaded and fille
 bash Evaluation_S1.sh
 ```
 
-This step is time-consuming. Please monitor the background command execution and ensure that all four programs activated by the `sh` file have completed before executing the next step.
+This step is time-consuming (about 1 hour running on four Intel(R) Xeon(R) Platinum 8375C CPU @ 2.90GHz). Please monitor the background command execution and ensure that all four programs activated by the `sh` file have completed before executing the next step.
 
 2. Run strategy 2 to obtain the four omics representations and pathway rankings for the two gold standard datasets:
 
