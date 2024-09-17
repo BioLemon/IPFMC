@@ -1,7 +1,7 @@
-ipfmc
 numpy
 pandas
 scikit-learn
 scipy
 snfpy
+ipfmc
 lifelines
