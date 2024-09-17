@@ -32,7 +32,7 @@ We hope this README file serves as a valuable resource for understanding and lev
 
 ### Create Environment
 
-Download IPFMC/Test_Files, install python packages included in requirements.txt.
+Download the IPFMC/Test_Files, and install the Python packages listed in the requirements.txt file. **Ensure that the ipfmc package is updated to the latest version**.
 
 ### Run on Demo datasets
 
