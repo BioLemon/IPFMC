@@ -1,9 +1,6 @@
 name: ipfmc
 channels:
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
   - conda-forge
-  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge/
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
