@@ -23,7 +23,7 @@ This section offers a straightforward tutorial on running our method using comma
 
 For users who need to incorporate our method into their own codes, this section delves into the intricacies of using IPFMC as a general Python package. It offers comprehensive instructions and examples to help you seamlessly integrate our tool with your existing codebase.
 
-#### Section 3: Instruction of Paper Data Reproduction
+#### Section 3: Instructions for Paper Data Reproduction
 
 This section is dedicated to reproducing all experimental results presented in our research paper. By following the instructions provided, you can validate our findings and explore the performance of IPFMC on the same datasets used in our study.
 
