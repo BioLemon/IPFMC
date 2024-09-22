@@ -15,19 +15,19 @@
 
 This README file serves as a comprehensive guide for understanding and utilizing our IPFMC method. It is divided into three main sections to address different user needs and provide clear instructions:
 
-#### Section 1: IPFMC Simple Use Case
+### Section 1: IPFMC Simple Use Case
 
 This section offers a straightforward tutorial on running our method using command-line interface. It provides guidance on setting parameters to meet your specific requirements, ensuring a seamless integration of IPFMC into your workflow.
 
-#### Section 2: Detailed Usage of IPFMC
+### Section 2: Detailed Usage of IPFMC
 
 For users who need to incorporate our method into their own codes, this section delves into the intricacies of using IPFMC as a general Python package. It offers comprehensive instructions and examples to help you seamlessly integrate our tool with your existing codebase.
 
-#### Section 3: Instructions for Paper Data Reproduction
+### Section 3: Instructions for Paper Data Reproduction
 
 This section is dedicated to reproducing all experimental results presented in our research paper. By following the instructions provided, you can validate our findings and explore the performance of IPFMC on the same datasets used in our study.
 
-**Note:** Please ensure that you update IPFMC to the latest version before using it, as this guidance is based on the most recent version. Otherwise, you may encounter some errors.
+**Note: Please ensure that you update IPFMC to the latest version before using it, as this guidance is based on the most recent version. Otherwise, you may encounter some errors.**
 
 We hope this README file serves as a valuable resource for understanding and leveraging the capabilities of our IPFMC method.
 ## Section 1: IPFMC Simple Use Case
