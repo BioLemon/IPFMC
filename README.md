@@ -27,6 +27,8 @@ For users who need to incorporate our method into their own codes, this section 
 
 This section is dedicated to reproducing all experimental results presented in our research paper. By following the instructions provided, you can validate our findings and explore the performance of IPFMC on the same datasets used in our study.
 
+Note: Please ensure that you update IPFMC to the latest version before using it, as this guidance is based on the most recent version. Otherwise, you may encounter some errors.
+
 We hope this README file serves as a valuable resource for understanding and leveraging the capabilities of our IPFMC method.
 ## Section 1: IPFMC Simple Use Case
 
